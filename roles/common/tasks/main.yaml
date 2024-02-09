@@ -1,0 +1,10 @@
+# The main update playbook
+
+- name: Gathering pack facts
+  package_facts:
+  manager: apt
+  tags: init
+
+- name: Running Distribution Upgrade
+  include_tasks: dist-update.yaml
+  tags: init

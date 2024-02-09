@@ -1,0 +1,12 @@
+---
+
+- hosts: [debian]
+  name: test script
+
+  tasks:
+
+  - name: Recursively find /tmp files older than 2 days
+    ansible.builtin.find:
+      paths: /home/ansible
+      age: 1d
+      recurse: yes

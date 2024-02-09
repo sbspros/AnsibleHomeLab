@@ -1,0 +1,12 @@
+---
+
+- hosts:proxmox_vm
+  gather_facts: False
+  tasks:
+    - name: Is server running
+      command: systemctl --quiet is-active proxmox-ve
+      register: proxmox_status
+
+    - name: Start Proxmox VM
+      command: systemctl start proxmox-ve
+      when: proxmox_status.stdout_lines|select('match',"active (running)")| empty

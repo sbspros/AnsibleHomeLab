@@ -1,0 +1,6 @@
+---
+
+- name: Update APT Distros
+  apt:
+    update_cache: yes
+    upgrade: dist

@@ -1,0 +1,9 @@
+---
+#file: playbooks/proxmox.yaml
+
+- name Manage Proxmox Server
+  gather_facts: yes
+  hosts: proxmox
+  become: yes
+  roles:
+  - common

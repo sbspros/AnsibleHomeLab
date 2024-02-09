@@ -1,0 +1,5 @@
+--- 
+- hosts: servers
+  tasks:
+  - name: Test connective by do a ping on servers
+    ping:

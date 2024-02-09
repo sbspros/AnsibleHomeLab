@@ -1,0 +1,7 @@
+---
+- hosts: proxmox    
+  gather_facts: False
+  task:
+    - name Is Proxmox up 
+      proxmon:
+        state: present

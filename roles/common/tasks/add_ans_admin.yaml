@@ -1,0 +1,52 @@
+---
+
+# ======================
+# Title: [Playbook Name]
+# Author: Richard Chamberlain
+# Contact: richard@sbspros.ca 
+# Date: Jan 17, 2023
+# Description:
+#   This script is used to create a new users across multiple serves
+# Requirements:
+#   - Ansible >= [Minimum Ansible Version]
+#   - [Any additional dependencies or requirements]
+# Variables:
+#   - [Variable Name]: [Variable Description]
+#   - [Variable Name]: [Variable Description]
+#   - ...
+# Tags:
+#   - [Tag1]
+#   - [Tag2]
+#   - [Tag3]
+# Licence: MIT
+# ======================
+
+
+- name: Create users across multiple servers  
+  hosts: [proxmox,red-hat,arch,debian]
+  vars:
+    user_name: "ans-admin"
+    random_password:  msg: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits,hexdigits,punctuation') }}"
+
+  tasks:
+  - name: Check if the user exists
+    stat:
+      path: "/home/{{ user_name }}"
+      followsymlinks: false
+    register: check_user-
+
+  - name: Create the user if not exists
+    user:
+      name: "{{ user_name }}"
+      state: present
+      password: "{{ random_password }}"
+      shell: "/bin/bash"
+      createhomedir: yes
+
+  - name: Copy the public SSH key to the remote user
+    ansible.builtin.copy:
+      src: /path/to/your/public_key.pub
+      dest: /home/{{ user.user }}/.ssh/authorized_keys
+      owner: "{{ user.user }}"
+      group: "{{ user.user }}"
+      mode: '0600'
